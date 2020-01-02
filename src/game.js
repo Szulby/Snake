@@ -12,7 +12,7 @@ class snake {
 		food: false,
 		foodLoc: [],
 		over: true,
-		score: 1
+		score: 0
 	}
 	mouse = e => {
 		const rect = document.getElementById('canvas').getBoundingClientRect()
