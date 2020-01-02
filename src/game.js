@@ -11,15 +11,18 @@ class snake {
 		before: [],
 		food: false,
 		foodLoc: [],
-		over: true
+		over: true,
+		score: 1
 	}
 	mouse = e => {
 		const rect = document.getElementById('canvas').getBoundingClientRect()
 		const { left, top, width, height } = this.state.button
 		let x = e.clientX - rect.left
 		let y = e.clientY - rect.top
-		if (x > left && x < left + width && y > top && y < top + height)
+		if (x > left && x < left + width && y > top && y < top + height) {
 			this.state.over = false
+			this.state.score = 0
+		}
 	}
 	before = snake => {
 		this.state.before = [...snake[0]]
@@ -109,6 +112,7 @@ class snake {
 				this.state.snake[0][0] === this.state.foodLoc[0] &&
 				this.state.snake[0][1] === this.state.foodLoc[1]
 			) {
+				this.state.score++
 				this.state.food = false
 				this.state.snake.length == 1
 					? this.state.snake.push([...this.state.before])
@@ -125,6 +129,7 @@ class snake {
 		const w = canvas.width
 
 		setInterval(() => {
+			const { left, top, width, height } = this.state.button
 			this.direction(this.state.key)
 			this.over(this.state.snake)
 			this.draw(0, 0, w, h, 'grey', ctx)
@@ -143,8 +148,16 @@ class snake {
 				for (let i of this.state.snake) {
 					this.draw(i[0], i[1], 20, 20, 'black', ctx)
 				}
+			} else if (this.state.score) {
+				ctx.font = '70px Arial'
+				ctx.fillStyle = 'black'
+				ctx.fillText('GAME OVER', 80, 180)
+				ctx.font = '20px Arial'
+				ctx.fillText(`score: ${this.state.score}`, 260, 220)
+				ctx.strokeRect(left, top, width, height)
+				ctx.font = '20px Arial'
+				ctx.fillText('RESTART', 254, 300)
 			} else {
-				const { left, top, width, height } = this.state.button
 				ctx.font = '70px Arial'
 				ctx.fillStyle = 'black'
 				ctx.fillText('SNAKE', 180, 180)
