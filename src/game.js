@@ -2,6 +2,12 @@ class snake {
 	state = {
 		key: '',
 		snake: [[300, 300]],
+		button: {
+			left: 250,
+			top: 270,
+			width: 100,
+			height: 45
+		},
 		before: [],
 		food: false,
 		foodLoc: [],
@@ -9,9 +15,11 @@ class snake {
 	}
 	mouse = e => {
 		const rect = document.getElementById('canvas').getBoundingClientRect()
+		const { left, top, width, height } = this.state.button
 		let x = e.clientX - rect.left
 		let y = e.clientY - rect.top
-		if (x > 250 && x < 350 && y > 270 && y < 320) this.state.over = false
+		if (x > left && x < left + width && y > top && y < top + height)
+			this.state.over = false
 	}
 	before = snake => {
 		this.state.before = [...snake[0]]
@@ -136,11 +144,11 @@ class snake {
 					this.draw(i[0], i[1], 20, 20, 'black', ctx)
 				}
 			} else {
+				const { left, top, width, height } = this.state.button
 				ctx.font = '70px Arial'
 				ctx.fillStyle = 'black'
 				ctx.fillText('SNAKE', 180, 180)
-				ctx.strokeStyle = 'black'
-				ctx.strokeRect(250, 270, 100, 50)
+				ctx.strokeRect(left, top, width, height)
 				ctx.font = '20px Arial'
 				ctx.fillText('START', 265, 300)
 			}
